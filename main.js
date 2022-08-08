@@ -45,7 +45,7 @@ describe(`${User.name} Class`, () => {
     });
   });
 
-  describe('full name', () => {
+  fdescribe('full name', () => {
     beforeEach(() => {
       model = new User({ firstName: 'Dylan', lastName: 'Israel' });
     });
@@ -63,7 +63,7 @@ describe(`${User.name} Class`, () => {
       );
     });
 
-    it('when no middle name just return first and last', () => {
+    xit('when no middle name just return first and last', () => {
       // arrange
       model.middleName = '';
 
@@ -71,7 +71,7 @@ describe(`${User.name} Class`, () => {
       const result = model.fullName;
 
       // assert
-      expect(result).toBe(`${model.firstName} ${model.lastName}`);
+      expect(result).toBe(`${model.firstName} ${model.lastName}123`);
     });
   });
 });
