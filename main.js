@@ -16,6 +16,10 @@ class User {
 
     return `${this.firstName} ${this.lastName}`;
   }
+
+  sayMyName() {
+    window.alert(this.fullName);
+  }
 }
 
 /**
@@ -24,54 +28,23 @@ class User {
 describe(`${User.name} Class`, () => {
   let model;
 
-  describe('default values', () => {
+  describe('say my name', () => {
     beforeEach(() => {
       model = new User();
     });
 
-    it('first name defaults to empty', () => {
-      // assert
-      expect(model.firstName).toBe('');
-    });
-
-    it('last name defaults to empty', () => {
-      // assert
-      expect(model.lastName).toBe('');
-    });
-
-    it('middle name defaults to empty', () => {
-      // assert
-      expect(model.middleName).toBe('');
-    });
-  });
-
-  fdescribe('full name', () => {
-    beforeEach(() => {
-      model = new User({ firstName: 'Dylan', lastName: 'Israel' });
-    });
-
-    it('middle initial when middleName is defined with first and last', () => {
+    it('alerts the full name of user', () => {
       // arrange
-      model.middleName = 'Christopher';
+      model.firstName = 'Dylan';
+      model.lastName = 'Israel';
+      spyOn(window, 'alert');
 
       // act
-      const result = model.fullName;
+      model.sayMyName();
 
       // assert
-      expect(result).toBe(
-        `${model.firstName} ${model.middleName[0]}. ${model.lastName}`
-      );
-    });
-
-    xit('when no middle name just return first and last', () => {
-      // arrange
-      model.middleName = '';
-
-      // act
-      const result = model.fullName;
-
-      // assert
-      expect(result).toBe(`${model.firstName} ${model.lastName}123`);
+      expect(window.alert).toHaveBeenCalled();
+      expect(window.alert).toHaveBeenCalledWith('Dylan Israel');
     });
   });
 });
