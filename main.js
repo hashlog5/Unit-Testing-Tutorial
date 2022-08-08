@@ -14,37 +14,28 @@ class User {
  * Test Suite
  */
 describe(`${User.name} Class`, () => {
+  let model;
+  beforeEach(() => {
+    model = new User();
+    console.log('dylan');
+  });
+
   describe('default values', () => {
     it('first name defaults to empty', () => {
-      // arrange
-      const data = { firstName: null };
-
-      // act
-      const model = new User(data);
-
       // assert
+      console.log(1);
       expect(model.firstName).toBe('');
     });
 
     it('last name defaults to empty', () => {
-      // arrange
-      const data = { lastName: null };
-
-      // act
-      const model = new User(data);
-
       // assert
+      console.log(2);
       expect(model.lastName).toBe('');
     });
 
     it('middle name defaults to empty', () => {
-      // arrange
-      const data = { middleName: null };
-
-      // act
-      const model = new User(data);
-
       // assert
+      console.log(3);
       expect(model.middleName).toBe('');
     });
   });
