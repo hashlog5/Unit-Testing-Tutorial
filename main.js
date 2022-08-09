@@ -37,18 +37,17 @@ describe(`${User.name} Class`, () => {
     model = new User();
   });
 
-  describe('additional matchers examples', () => {
-    it('gets full name pieces', () => {
+  describe('additional matchers area', () => {
+    it('has my first name', () => {
       // arrange
       const firstName = 'Dylan';
-      const middleName = 'Christopher';
       const lastName = 'Israel';
 
       // act
-      model = new User({ firstName, middleName, lastName });
+      model = new User({ firstName, lastName });
 
       // assert
-      expect(model.fullNamePieces).toEqual([firstName, middleName, lastName]);
+      expect(model.fullName).toMatch(/Dylan/);
     });
   });
 });
