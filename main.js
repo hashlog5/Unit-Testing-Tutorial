@@ -20,6 +20,16 @@ class User {
   sayMyName() {
     window.alert(this.fullName);
   }
+
+  getCodeName() {
+    const isATestingGod = confirm('Are you a testing god?');
+
+    if (isATestingGod) {
+      return 'TESTING GOD!';
+    } else {
+      return `scrub skipping tests in his best friend's ride!`;
+    }
+  }
 }
 
 /**
@@ -28,23 +38,42 @@ class User {
 describe(`${User.name} Class`, () => {
   let model;
 
-  describe('say my name', () => {
+  describe('get code name', () => {
     beforeEach(() => {
       model = new User();
     });
 
-    it('alerts the full name of user', () => {
+    it('is a testing god when confirmed', () => {
       // arrange
-      model.firstName = 'Dylan';
-      model.lastName = 'Israel';
-      spyOn(window, 'alert');
+      spyOn(window, 'confirm').and.returnValue(true);
 
       // act
-      model.sayMyName();
+      const result = model.getCodeName();
 
-      // assert
-      expect(window.alert).toHaveBeenCalled();
-      expect(window.alert).toHaveBeenCalledWith('Dylan Israel');
+      // asssert
+      expect(result).toBe('TESTING GOD!');
+    });
+
+    it('is a scrub when not doing testing', () => {
+      // arrange
+      spyOn(window, 'confirm').and.returnValue(false);
+
+      // act
+      const result = model.getCodeName();
+
+      // asssert
+      expect(result).toBe(`scrub skipping tests in his best friend's ride!`);
+    });
+
+    it('ask a user if they are a testing god', () => {
+      // arrange
+      spyOn(window, 'confirm').and.returnValue(true);
+
+      // act
+      const result = model.getCodeName();
+
+      // asssert
+      expect(window.confirm).toHaveBeenCalledWith(`Are you a testing god?`);
     });
   });
 });
