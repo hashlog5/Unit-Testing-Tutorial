@@ -73,9 +73,19 @@ describe(`${User.name} Class`, () => {
       model = new User(data, mockUserService);
     });
 
-    it('gets user data by id', async () => {
+    it('passes id to get user', async () => {
       // arrange
       mockUserService.lastId = null;
+
+      // act
+      await model.getMyFullUserData();
+
+      // assert
+      expect(mockUserService.lastId).toBe(1);
+    });
+
+    it('gets full user data', async () => {
+      // arrange
       mockUserService.user = new User({
         firstName: 'Dollan',
         middleName: 'Coding God',
@@ -86,8 +96,9 @@ describe(`${User.name} Class`, () => {
       // act
       const result = await model.getMyFullUserData();
 
-      // asssert
-      expect(mockUserService.lastId).toBe(1);
+      // assert
+      expect(result.id).toBe(2);
+      expect(result.firstName).toBe('Dollan');
     });
   });
 });
