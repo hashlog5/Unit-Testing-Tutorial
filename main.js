@@ -3,10 +3,12 @@ class User {
   lastName;
   middleName;
 
-  constructor(data = {}) {
+  constructor(data, userService) {
     this.firstName = data.firstName || '';
     this.lastName = data.lastName || '';
     this.middleName = data.middleName || '';
+    this.id = data.id;
+    this.userService = userService;
   }
 
   get fullName() {
@@ -15,6 +17,10 @@ class User {
     }
 
     return `${this.firstName} ${this.lastName}`;
+  }
+
+  async getMyFullUserData() {
+    return this.userService.getUserById(this.id);
   }
 
   sayMyName() {
@@ -32,48 +38,56 @@ class User {
   }
 }
 
+class UserService {
+  getUserById(id) {
+    return fetch(`https://jsonplaceholder.typicode.com/users/${id}`);
+  }
+}
+
 /**
  * Test Suite
  */
 describe(`${User.name} Class`, () => {
   let model;
+  let mockUserService;
 
-  describe('get code name', () => {
+  describe('getMyFullUserData', () => {
     beforeEach(() => {
-      model = new User();
+      mockUserService = {
+        lastId: null,
+        user: {},
+        getUserById(id) {
+          this.lastId = id;
+
+          return this.user;
+        },
+      };
+
+      const data = {
+        firstName: 'Dylan',
+        middleName: 'Christopher',
+        lastName: 'Israel',
+        id: 1,
+      };
+
+      model = new User(data, mockUserService);
     });
 
-    it('is a testing god when confirmed', () => {
+    it('gets user data by id', async () => {
       // arrange
-      spyOn(window, 'confirm').and.returnValue(true);
+      mockUserService.lastId = null;
+      mockUserService.user = new User({
+        firstName: 'Dollan',
+        middleName: 'Coding God',
+        lastName: 'Nonya',
+        id: 2,
+      });
 
       // act
-      const result = model.getCodeName();
+      const result = await model.getMyFullUserData();
 
       // asssert
-      expect(result).toBe('TESTING GOD!');
-    });
-
-    it('is a scrub when not doing testing', () => {
-      // arrange
-      spyOn(window, 'confirm').and.returnValue(false);
-
-      // act
-      const result = model.getCodeName();
-
-      // asssert
-      expect(result).toBe(`scrub skipping tests in his best friend's ride!`);
-    });
-
-    it('ask a user if they are a testing god', () => {
-      // arrange
-      spyOn(window, 'confirm').and.returnValue(true);
-
-      // act
-      const result = model.getCodeName();
-
-      // asssert
-      expect(window.confirm).toHaveBeenCalledWith(`Are you a testing god?`);
+      expect(mockUserService.lastId).toBe(1);
     });
   });
 });
